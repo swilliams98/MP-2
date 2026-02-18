@@ -30,7 +30,7 @@ export default function Jokes(props: {data: Joke[]}){
             {
                 props.data?.map((joke:Joke)=>
                     <SingleCharDiv type = {joke.type} >
-                        <h1>{joke.category} Joke:</h1>
+                        <h1>{joke.category} {joke.category ==="Pun" ? "": " Joke"}</h1>
                         {joke.type === "twopart" ? <div><p>{joke.setup}</p> <p>{joke.delivery}</p></div> : <p>{joke.joke}</p>}
                     </SingleCharDiv>
                 )
