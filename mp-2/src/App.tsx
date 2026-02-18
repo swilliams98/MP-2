@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Jokes from "./components/Jokes.tsx";
+import styled from "styled-components";
+import { useState, useEffect } from 'react'
+import type {Joke} from "./interfaces/Jokes.ts";
+const ParentDiv = styled.div `
+    width: 80vw;
+    margin:auto;
+    border: 5px #677DB7 solid;
+`;
 
-function App() {
-  const [count, setCount] = useState(0)
 
+export default function App() {
+    const [data, setData] = useState<Joke[]>([]);
+
+    useEffect (()=>{
+        async function fetchData(): Promise<void>{
+            const rawData = await fetch("https://v2.jokeapi.dev/joke/Any?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&amount=10");
+            const {jokes} : {jokes: Joke[]} = await rawData.json();
+            setData(jokes);
+        }
+        fetchData()
+            .then(()=> console.log("Data fetched successfully"))
+            .catch((e)=> console.log( "An error occurred: " + e));
+    },[]);
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ParentDiv>
+        <Jokes data = {data}/>
+    </ParentDiv>
   )
 }
-
-export default App
