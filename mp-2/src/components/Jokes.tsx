@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import type {Joke} from "../interfaces/Jokes.ts";
 
-const AllCharsDiv = styled.div `
+const AllJokesDiv = styled.div `
     display:flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
     background-color: #9CA3DB ;
 `;
 
-const SingleCharDiv = styled.div<{ type: string }>`
+const SingleJokeDiv = styled.div<{ type: string }>`
     display:flex;
     flex-direction: column;
     justify-content: center;
@@ -26,15 +26,15 @@ const SingleCharDiv = styled.div<{ type: string }>`
 
 export default function Jokes(props: {data: Joke[]}){
     return(
-        <AllCharsDiv>
+        <AllJokesDiv>
             {
-                props.data?.map((joke:Joke)=>
-                    <SingleCharDiv type = {joke.type} >
+                props.data.map((joke:Joke)=>
+                    <SingleJokeDiv type = {joke.type} >
                         <h1>{joke.category} {joke.category ==="Pun" ? "": " Joke"}</h1>
                         {joke.type === "twopart" ? <div><p>{joke.setup}</p> <p>{joke.delivery}</p></div> : <p>{joke.joke}</p>}
-                    </SingleCharDiv>
+                    </SingleJokeDiv>
                 )
             }
-        </AllCharsDiv>
+        </AllJokesDiv>
     );
 }
